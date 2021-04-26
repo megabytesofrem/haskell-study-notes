@@ -1,0 +1,85 @@
+\section{Conditionals}
+\subsection{If expressions}
+Haskell doesnt have if statements, however it has if expressions instead.
+
+\begin{lstlisting}
+-- stolen from the haskell book
+let x = 0
+if (x + 1 == 1) then "AWESOME" else "wut"
+\end{lstlisting}
+
+\subsection{Case expressions}
+Case expressions are similar to switch-case from languages like Java, and C++.
+
+Case expressions begin with \textbf{case x of} and their body contains all the different
+cases in the format \emph{value} $\rightarrow$ \emph{return-value}.
+
+\begin{lstlisting}
+pal xs =
+  case y of
+    True  -> "yes"
+    False -> "no"
+  where y = xs == reverse xs
+\end{lstlisting}
+
+It can also be used to \emph{pattern match} against data types
+\begin{lstlisting}
+data Animal = Cat | Dog
+speak a =
+  case a of
+    Cat -> "meow"
+    Dog -> "bork"
+\end{lstlisting}
+
+\newpage
+\subsection{Guards}
+There are also guards which can provide a nicer way of pattern matching instead of writing if-else expressions
+or case blocks.
+
+Guard blocks are written like \emph{function-name} \emph{params} with each case on
+a new line starting with a pipe. Cases are written in the format:
+
+\say{$\vert$ \emph{condition} = \emph{value}.}
+
+Guards can also have fallback cases - marked as \textbf{otherwise}.
+
+\begin{lstlisting}
+bloodNa :: Integer -> String
+bloodNa x
+
+\end{lstlisting}
+
+
+\subsection{Pattern matching}
+Pattern matching is very common in Haskell. It allows great flexibility since you can pattern match
+against anything to extract values etc.
+
+\emph{\_} or \emph{x} means a catch-all/fallback pattern to match on if all else fails
+
+\begin{lstlisting}
+isItOne :: Int -> Bool
+isItOne 1 = True
+isItOne _ = False
+\end{lstlisting}
+
+\subsubsection{Matching against data constructors}
+Pattern matching against data constructors is possible.
+
+The example defines two functions called \textbf{getName} and \textbf{getAccNumber} that
+pattern match on the \emph{User} data constructor to extract either the name \underline{or} account number.
+
+\begin{lstlisting}
+data User = User String Int
+
+getName :: User -> String
+getName (User name _) = name
+
+getAccNumber :: User -> Int
+getAccNumber (User _ acc) = acc
+\end{lstlisting}
+
+\footnote{If we don't use a field, we can use an \_ just like pattern matching with functions to signify the field is ignored}
+\footnote{
+    Pattern matching against data constructors can get real old if you have a lot of parameters.
+    So an alternative to this that will be covered later is record types.
+}

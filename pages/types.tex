@@ -1,0 +1,60 @@
+% Types
+\section{Types}
+\subsection{Basic types}
+Haskell has many primitive types such as strings, characters, integers and floating point numbers.
+
+\begin{lstlisting}
+"hello world" -- string
+1234          -- integer
+3.14          -- float
+\end{lstlisting}
+
+\subsection{Typeclasses}
+Typeclasses are a way of sharing specific functionality between types. We can either implement our
+own instances of typeclasses, or let haskell \emph{derive} them automatically.
+
+They are kind of like Java interfaces.
+
+Num is the generic base typeclass that all numbers derive from.
+\begin{enumerate}
+    \item Integral numbers (\emph{Integral} typeclass)
+    \begin{itemize}
+        \item \emph{Int}: fixed precision integer with a min and maximum size
+        \item \emph{Integer}: supports \textbf{very} large integers
+    \end{itemize}
+    \item Floating point numbers (\emph{Fractional} typeclass)
+    \begin {itemize}
+        \item \emph{Float}: single precision floating point number
+        \item \emph{Double}: double precision floating point number
+    \end{itemize}
+\end{enumerate}
+
+\subsection{More on typeclasses}
+Anything that derives from
+\begin{itemize}
+    \item \emph{Show} can be printed
+    \item \emph{Read} can be read as a value
+    \item \emph{Eq} can be compared for equality with \emph{==} and \emph{/=}
+    \item \emph{Ord} can be compared and ordered with \emph{<} and \emph{>}
+\end{itemize}
+
+\newpage
+\begin{lstlisting}
+{-# LANGUAGE DuplicateRecordFields #-}
+
+data Worker = Worker { name :: String, job :: String } deriving (Show)
+data Student = Student { name :: String, school :: String } deriving (Show)
+
+class Person a where
+    getName :: a -> String
+    getOccupation :: a -> String
+
+instance Person Worker where
+    getName x = name (x :: Worker)
+    getOccupation x = "Working on " ++ job x
+
+instance Person Student where
+    getName x = name (x :: Student)
+    getOccupation x = "Studying at " ++ school x
+\end{lstlisting}
+\figurename{ 1: Demonstration of a custom typeclass for Person}
