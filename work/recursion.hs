@@ -14,5 +14,3 @@ take' n (x:xs) = x:take' (n-1) xs -- prepend x to the list
 -- Maps a function over a list
 map' f [] = [] -- base case, empty list
 map' f (x:xs) = f x:map' f xs
-
--- foldl style recursion

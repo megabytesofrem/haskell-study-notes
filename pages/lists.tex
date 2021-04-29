@@ -2,21 +2,25 @@
 
 \subsection{Lists}
 Haskell lists are represented as linked lists.
-A node in a linked list can either be \emph{Nil} or a pointer to the \emph{next node}.
-
-Lists have a \emph{head} and a \emph{tail}. Because of Haskell being lazily evaluated, lists can be infinite.
-\emph{take} takes \emph{n} items from a list, and \emph{drop} drops \emph{n} items from a list.\\
+A node in a linked list can either be \emph{Nil} or a pointer to the \emph{next node}. Lists have a \emph{head} and a \emph{tail}. Because of Haskell being lazily evaluated, lists can be infinite. \emph{take} takes \emph{n} items from a list, and \emph{drop} drops \emph{n} items from a list.\\
 \\
 list = [1, 2, 3, 4, 5]\\
 In the above list, the \emph{head} is \underline{1}, and the \emph{tail} is \underline{[2, 3, 4, 5]}
 
-The \emph{splitAt} function splits a list into two parts at the element specified
-\begin{verbatim}
-Prelude> splitAt 5 [1..10]
-([1,2,3,4,5],[6,7,8,9,10])
-\end{verbatim}
-
+The \emph{splitAt} function splits a list into two parts at the element specified.
 Lists can be indexed using the \emph{!!} operator.
+
+\subsubsection{List Comprehensions}
+List comprehensions are \underline{similar} to how they work in Python.
+They must have at least one list that is the generator, which provides
+the input.
+
+[ \emph{operation} $\vert$ \emph{x} $\leftarrow$ \emph{list} ]
+
+An example of a list comprehension:
+\begin{verbatim}
+[ x ^ 2 | x <- [1..10]]
+\end{verbatim}
 
 \subsection{Tuples}
 Haskell has tuples, triples, and \emph{n-tuples}. Tuples have a \emph{fst} and \emph{snd} function which

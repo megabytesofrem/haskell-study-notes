@@ -9,9 +9,7 @@ if (x + 1 == 1) then "AWESOME" else "wut"
 \end{lstlisting}
 
 \subsection{Case expressions}
-Case expressions are similar to switch-case from languages like Java, and C++.
-
-Case expressions begin with \textbf{case x of} and their body contains all the different
+Case expressions are similar to switch-case from languages like Java, and C++. Case expressions begin with \textbf{case x of} and their body contains all the different
 cases in the format \emph{value} $\rightarrow$ \emph{return-value}.
 
 \begin{lstlisting}
@@ -33,11 +31,8 @@ speak a =
 
 \newpage
 \subsection{Guards}
-There are also guards which can provide a nicer way of pattern matching instead of writing if-else expressions
-or case blocks.
-
-Guard blocks are written like \emph{function-name} \emph{params} with each case on
-a new line starting with a pipe. Cases are written in the format:
+There are also guards which can provide a nicer way of pattern matching instead of writing if-else expressions or case blocks.\\\\Guard blocks are written as a series of
+cases which are written on a new line starting with a pipe. Cases are written in the format:
 
 \say{$\vert$ \emph{condition} = \emph{value}.}
 
@@ -51,8 +46,7 @@ bloodNa x
 
 
 \subsection{Pattern matching}
-Pattern matching is very common in Haskell. It allows great flexibility since you can pattern match
-against anything to extract values etc.
+Pattern matching is very common in Haskell. It allows great flexibility since you can pattern match against anything to extract values etc.
 
 \emph{\_} or \emph{x} means a catch-all/fallback pattern to match on if all else fails
 
@@ -63,9 +57,7 @@ isItOne _ = False
 \end{lstlisting}
 
 \subsubsection{Matching against data constructors}
-Pattern matching against data constructors is possible.
-
-The example defines two functions called \textbf{getName} and \textbf{getAccNumber} that
+Pattern matching against data constructors is possible. The example defines two functions called \textbf{getName} and \textbf{getAccNumber} that
 pattern match on the \emph{User} data constructor to extract either the name \underline{or} account number.
 
 \begin{lstlisting}

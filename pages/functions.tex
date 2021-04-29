@@ -50,7 +50,7 @@ partialApply = flipOne 2 -- ((flip 1) 2)
 
 \subsection{Function composition}
 Composing functions is like a \emph{right to left} pipeline. \textbf{f . g} can be read
-as \textbf{f} after \textbf{g}.
+as \textbf{f} after \textbf{g}. In Haskell \lstinline{.} is used since $\circ$ is not a valid ASCII character.
 
 So (f $\circ$ g) x = f (g x)
 \begin{enumerate}
