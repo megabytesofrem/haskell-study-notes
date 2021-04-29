@@ -10,11 +10,11 @@ By default, all functions are curried in Haskell. Given the following type signa
 add :: Int -> Int -> Int
 \end{lstlisting}
 
-we would say that the function \textbf{add} takes two integers, and returns an integer.
+we would say that the function \texttt{add} takes two integers, and returns an integer.
 However, because of how currying works it actually means.
 
 \begin{itemize}
-    \item \textbf{add} takes a \emph{single} integer parameter
+    \item \texttt{add} takes a \emph{single} integer parameter
     \item and returns a function that takes another integer parameter, and eventually
     will return an integer itself.
 \end{itemize}
@@ -38,7 +38,7 @@ addOne 5
 
 \subsection{Higher-order functions}
 Higher order functions are functions that can accept functions as parameters
-\emph{flip} is an example of a higher-order function.
+\texttt{flip} is an example of a higher-order function.
 
 Its type signature is \emph{flip :: (a $\rightarrow$ b $\rightarrow$ c) $\rightarrow$ b $\rightarrow$ a $\rightarrow$ c}
 and it can be partially applied like so
