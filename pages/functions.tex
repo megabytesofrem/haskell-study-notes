@@ -22,14 +22,15 @@ However, because of how currying works it actually means.
 Currying is useful because it means we can create new functions by \emph{partially applying}
 functions to parameters.
 
+\emph{addOne 5} \underline{evaluates} to \emph{((add 1) 5)} which is then further reduced to
+the normal form .
+
 \begin{lstlisting}
--- desugared form of the above add function
 add :: Int -> (Int -> Int)
 
 addOne :: Int -> Int
 addOne x = add 1
 
--- addOne 5 desugars to
 addOne 5
 ((add 1) 5)
 6
@@ -51,7 +52,7 @@ partialApply = flipOne 2 -- ((flip 1) 2)
 Composing functions is like a \emph{right to left} pipeline. \textbf{f . g} can be read
 as \textbf{f} after \textbf{g}.
 
-(f $\circ$ g) x = f (g x)
+So (f $\circ$ g) x = f (g x)
 \begin{enumerate}
     \item first applies \emph{g}
     \item then applies \emph{f} to the result of applying \emph{g}
