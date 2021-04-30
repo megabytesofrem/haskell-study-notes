@@ -19,8 +19,28 @@ the input.
 
 An example of a list comprehension:
 \begin{verbatim}
-[ x ^ 2 | x <- [1..10]]
+[x ^ 2 | x <- [1..10]]
 \end{verbatim}
+
+List comprehensions can have predicates (conditions)
+\begin{verbatim}
+[x ^ 2 | x <- [1..10], x `mod` 2 == 0]
+\end{verbatim}
+
+... and they can pull from multiple generators/inputs too
+\begin{verbatim}
+[(x, y) | x <- [1,2,3], y <- ['a', 'b']]
+\end{verbatim}
+
+List comprehensions can also be \underline{bound} to \emph{variables}.
+\begin{lstlisting}
+let square' = [x ^ 2 | x <- [1..10]]
+\end{lstlisting}
+
+\footnote{
+    When we say variables, the mathematical meaning of variables is meant.
+    This means we can bind values to identifiers, but we can \textbf{never} change the values of those bindings.
+}
 
 \subsection{Tuples}
 Haskell has tuples, triples, and \emph{n-tuples}. Tuples have a \emph{fst} and \emph{snd} function which

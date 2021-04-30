@@ -20,3 +20,4 @@
 \contentsline {subsection}{\numberline {5.1}Factorial}{9}{}%
 \contentsline {subsection}{\numberline {5.2}More examples of recursion}{9}{}%
 \contentsline {subsection}{\numberline {5.3}Fold Styles}{10}{}%
+\contentsline {section}{\numberline {6}Weak head normal form}{11}{}%

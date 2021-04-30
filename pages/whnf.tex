@@ -1,0 +1,34 @@
+\section{Weak head normal form}
+Values in Haskell are reduced to Weak head normal form (WHNF).
+Weak head normal form is a type of normal form which contains both the possibility the expression has been fully evaluated/reduced (normal form) as well as the possibility that the expression has been evaluated to the point of arriving at a data constructor/lambda waiting for an argument.
+
+These expressions \textbf{are} in WHNF:
+
+\begin{lstlisting}[linewidth=15cm]
+-- https://stackoverflow.com/questions/6872898/
+(1, 1 + 1)          -- outermost part is the data constructor (,)
+\x -> 2 + 2         -- outermost part is a lambda abstraction
+'h' : ("e" + "llo") -- outermost part is the data constructor (:)
+\end{lstlisting}
+
+These examples \textbf{are not} in WHNF
+\begin{lstlisting}[linewidth=15cm]
+1 + 2               -- the outermost part here is an application of (+)
+(\x -> x + 1) 2     -- the outermost part is an application of (\x -> x + 1)
+"he" ++ "llo"       -- the outermost part is an application of (++)    
+\end{lstlisting}
+
+We can use \texttt{:sprint} in GHCI to print out the representation of the value in memory. Due to laziness, polymorphic types are unevaluated (thunked) until we use them. This is marked with an underscore (\_).
+
+\begin{verbatim}
+Prelude> let nums = [1..5]
+
+Prelude> :sprint nums
+nums = _
+
+Prelude> take 2 nums
+Prelude> :sprint nums
+nums = 1 : 2 : _
+\end{verbatim}
+
+\footnote{The examples on WHNF were taken directly from the amazing Haskell Book}
