@@ -1,0 +1,39 @@
+\section{More operations on lists}
+
+\subsection{Filtering}
+\texttt{filter} has the following type signature \emph{filter} :: (a $\rightarrow$ b) $\rightarrow$ [a] $\rightarrow$ [a]. \emph{filter} 
+
+\begin{lstlisting}
+filter _ []   = []
+filter pred (x:xs)
+  | pred x    = x : filter pred xs
+  | otherwise = filter pred xs
+\end{lstlisting}
+
+Filter all the \textbf{even} numbers from the list, removing the odd ones.
+\begin{lstlisting}
+filter even [1..10]
+-- [2,4,6,8,10]
+\end{lstlisting}
+
+Filters can have anonymous lambda syntax instead of directly passing higher-order functions to it.
+\begin{lstlisting}
+filter (\x -> (x `rem' 2 == 0)) [1..20]
+-- [2,4,6,8,10,12,14,16,18,20]
+\end{lstlisting}
+
+\subsection{Zipping Lists}
+Zipping lists is a means of \textbf{combining} values from multiple lists into a single list. \texttt{zipWith} allows you to use a combining function to product a list of results by \underline{zipping} two lists together.
+
+\begin{lstlisting}
+zip [1, 2, 3] [4, 5, 6]
+-- [(1,4), (2,5), (3,6)]
+
+-- The lists can be different types
+zip [1, 2, 3] ['a', 'b', 'c']
+-- [(1,'a'), (2,'b'), (3,'c')]
+\end{lstlisting}
+
+We can use \texttt{unzip} to unzip a zipped list and recover the contents of it before it was zipped with \texttt{zip} or \texttt{zipWith}.
+
+\emph{zipWith :: (a $\rightarrow$ b $\rightarrow$ c) $\rightarrow$ [a] $\rightarrow$ [b] $\rightarrow$ [c])}

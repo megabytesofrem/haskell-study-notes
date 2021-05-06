@@ -7,6 +7,24 @@ A node in a linked list can either be \emph{Nil} or a pointer to the \emph{next 
 list = [1, 2, 3, 4, 5]\\
 In the above list, the \emph{head} is \underline{1}, and the \emph{tail} is \underline{[2, 3, 4, 5]}
 
+Lists are made up of individual cons cells. The implementation for the \emph{[]} type in Haskell is:
+
+\begin{lstlisting}
+data [] a = [] | a : [a]
+
+-- Defining it ourselves
+data List a = Nil | Cons a (List a)
+
+-- Creating a list using our list type
+Cons 1 (Cons 2 (Cons 3 Nil))
+
+-- So a list in Haskell is basically just 1:2:3:[] and [1,2,3] is syntactic sugar
+\end{lstlisting}
+
+\footnote{The spine is a way to refer to the structure that glues a collection
+of values together. In the list datatype it is formed by the recur-
+sive nesting of cons cells.}
+
 The \emph{splitAt} function splits a list into two parts at the element specified.
 Lists can be indexed using the \emph{!!} operator.
 

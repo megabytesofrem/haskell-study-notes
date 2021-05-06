@@ -1,0 +1,31 @@
+\section{More on types}
+
+\subsection{Record types}
+Haskell has support for record types which can basically be seen as Haskells version of a C struct.
+
+Let's create a type to represent a \emph{Person}.
+
+\begin{lstlisting}
+--                   fName  lName  age gender height
+data Person = Person String String Int String Float
+
+firstName :: Person -> String
+firstName (Person s _ _ _ _) = s
+
+lastName :: Person -> String
+lastName (Person _ s _ _ _) = s
+
+...
+\end{lstlisting}
+
+Yikes thats not readable, lets write it in the more readable \emph{record syntax} which is \textbf{identical} to the above syntax but much more organized.
+
+\begin{lstlisting}
+data Person = Person { firstName :: String
+                     , lastName  :: String
+                     , age :: Int
+                     , gender :: String
+                     , height :: Float
+                     } deriving (Show)
+\end{lstlisting}
+
