@@ -1,0 +1,168 @@
+\section{Folds}
+Folds as a general concept are called catamorphisms. Catamorphisms are a means of deconstructing data. If the spine of a list is the structure of a list, then a fold is what can reduce that structure.
+
+% foldl vs foldr
+\subsection{Foldr}
+Foldr is short for "fold right". This is the most common fold that you will want to use often with lists. The type signature is \texttt{foldr :: Foldable t => (a -> b -> b) -> b -> ta -> b} in GHC 7.10 and newer.
+
+GHC 7.10 abstracted out the list-specific part of folding into a typeclass called \texttt{Foldable} to allow you to reuse the same folding functions for any data type that can be folded.
+
+\begin{lstlisting}
+-- Remember how map worked?
+map :: (a -> b) -> [a] -> [b]
+
+map (+1) 1 :      2 :      3 : []
+map (+1) 1 : (+1) 2 : (+1) 3 : []
+
+-- foldr works similar
+foldr (+) 0 (1   :   2   :   3   :   [])
+             1   + ( 2   +   (3  +   0))
+\end{lstlisting}
+
+\emph{map} applies a function to each item of a list and returns a list, whereas a \emph{fold} \underline{replaces} the cons constructors with the function and \textbf{reduces} the list.
+
+\subsubsection{Associativity}
+Foldr is right associative, which means that it associates to the right.
+
+In \texttt{foldr (+) 0 [1..10]}, \emph{0} is the \textbf{identity} for the function. If this were to be implemented recursively like:
+
+\begin{lstlisting}
+sum :: [Int] -> Int
+sum []     = 0 -- the base case translates to the identity for foldr
+sum (x:xs) = x + sum xs 
+\end{lstlisting}
+
+\newpage
+\subsubsection{Reducing}
+One way to think about the way Haskell evaluates folds is that its like a text rewriting system. Our expression has rewritten itself from \texttt{foldr (+) 0 [1, 2, 3]} into:
+
+\begin{verbatim}
+(+) 1 ( (+) 2 ( (+) 3 0) )
+\end{verbatim}
+
+which can be reduced by evaluating the inner-most parentheses:
+\begin{verbatim}
+1 + (2 + (3 + 0))
+1 + (2 + 3)
+1 + 5
+6
+\end{verbatim}
+ 
+\begin{lstlisting}[linewidth=15cm]
+-- we're reducing:
+foldr (+) 0 [1, 2, 3]
+
+-- first step, whats `xs' in our case expression?
+foldr (+) 0 [1, 2, 3] =
+  case [1, 2, 3] of 
+    []      -> 0
+    (x:xs)  -> f x (foldr f z xs) <-- this matches
+
+-- next, what are f, x, xs, and z in that branch of the case?
+foldr (+) 0 [1, 2, 3] =
+  case [1, 2, 3] of
+    []            -> 0
+    (1 : [2,3])   -> (+) 1 (foldr (+) 0 [2, 3])
+
+-- there is (+) 1 implicitly wrapped around this
+-- continuation of the recursive fold
+foldr (+) 0 [2, 3] =
+  case [2, 3] of
+    []        -> 0 -- this didn't match again
+    (2 : [3]) -> (+) 2 (foldr (+) 0 [3])
+
+-- next recursion
+foldr (+) 0 [2] =
+  case [3] of
+    []        -> 0 -- this didn't match again
+    (3 : []) -> (+) 3 (foldr (+) 0 [])
+    
+-- there is (+) 1 ( (+) 2 ( (+) 3 ..) ) implicitly wrapped around
+-- this continuation of the fold
+
+-- last recursion, end of the spine
+foldr (+) 0 [] =
+  case [] of
+    []      -> 0 -- finally matches!
+    -- ignore other case, it didnt happen
+\end{lstlisting}
+
+\subsection{Foldl}
+Because of the way lists work, folds must \emph{first} recurse over the spine of the list from the beginning to the end. Left folds traverse the spine in the same direction as right folds, but their folding process is \underline{left associative} and proceeds in the \underline{opposite} direction as that of foldr.
+
+A simple definition of \texttt{foldl} could look like:
+\begin{lstlisting}
+foldl :: (b -> a -> b) -> b -> [a] -> b
+foldl f acc []      = acc
+foldl f acc (x:xs)  = foldl f (f acc x) xs
+
+-- Given the list
+foldl (+) 0 (1 : 2 : 3 : [])
+
+-- foldl associates like
+(  ( 0 + 1 ) + 2 ) + 3 )
+
+-- in contrast to foldr being
+( 3 + ( 2 + ( 1 + 0 ) ) )
+\end{lstlisting}
+
+\subsection{Scans}
+Scans are \underline{similar} to folds except that scans return a list of all the intermediate stages of the fold. 
+\begin{verbatim}
+Prelude> foldr (+) 0 [1..5]
+15
+
+Prelude> scanr (+) 0 [1..5]
+[15, 14, 12, 9, 5, 0]
+
+Prelude> foldl (+) 0 [1..5]
+15
+
+Prelude> scanl (+) 0 [1..5]
+[0, 1, 3, 6, 10, 15]
+\end{verbatim}
+
+The relationship \underline{between} the scans and folds are:
+\begin{lstlisting}
+last (scanl f z xs) = foldl f z xs
+head (scanr f z xs) = foldr f z xs
+\end{lstlisting}
+
+\newpage
+\subsection{Associativity}
+The fundamental way to think about evaluation in Haskell is as substituting a value. 
+
+When we use a \emph{right fold} on a list with a function \emph{f}, and a start value of z, we are replacing the \textbf{cons} constructors with our function \emph{f} and the empty list constructor with the start value of z.
+
+\begin{verbatim}
+[1..3] = 1 : 2 : 3 : []
+\end{verbatim}
+
+\begin{lstlisting}
+foldr f z [1, 2, 3] =
+
+1 `f` (foldr f z [2, 3])
+1 `f` (2 `f` (foldr f z [3]))
+1 `f` (2 `f` (3 `f` (foldr fz[])))
+=
+1 `f` (2 `f` (3 `f` z))
+\end{lstlisting}
+
+
+\subsection{Laziness}
+\begin{lstlisting}
+foldr f z (x:xs) = f x (foldr f z xs)
+-- rest of the fold    ^^^^^^^^^^^^^
+\end{lstlisting}
+Folding happens in two stages --- traversal and folding.
+\begin{itemize}
+  \item Traversal is the stage in which the fold recurses over the spine
+  \item Folding is the stage where the values in a list are evaluated/reduced using a function
+\end{itemize}
+
+Foldr is \emph{lazy} which means that if \emph{f} doesn't evaluate it's second argument (rest of the fold), no more of the spine will be forced. One of the consequences of this is that foldr can avoid evaluating not just some or all of the values in the list, but some or
+all of the list’s spine as well!
+
+This means \texttt{foldr} works on infinite sized lists too.
+
+\footnote{Sometimes the fold/recursive function will never reduce to a result. This is called bottoming or reaching the bottom (symbolized as $\bot$).}

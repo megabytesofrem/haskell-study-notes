@@ -1,18 +1,29 @@
 \documentclass{article}
 \usepackage{listings}
+\usepackage{parskip}
 \usepackage{xcolor} % xcolor for HTML colors
 \usepackage{dirtytalk}
 
 \usepackage{graphicx}
 \graphicspath{{./pages/diag/}}
 
-% Night Owl Light
-\definecolor{foreground}{HTML}{403f53}
-\definecolor{background}{HTML}{FBFBFB}
-\definecolor{comment}{HTML}{989fb1}
-\definecolor{number}{HTML}{aa0982}
-\definecolor{keyword}{HTML}{994cc3}
-\definecolor{string}{HTML}{c96765}
+% Atom One Light 
+\definecolor{mono1}{HTML}{383A42}
+\definecolor{mono2}{HTML}{696C77}
+\definecolor{bg}{HTML}{FFFFFF}
+
+\definecolor{red}{HTML}{CA1243}
+\definecolor{cyan}{HTML}{0F7BA9}
+\definecolor{blue}{HTML}{4078F2}
+\definecolor{purple}{HTML}{A626A4}
+\definecolor{green}{HTML}{50A14F}
+
+\colorlet{foreground}{mono1}
+\colorlet{background}{bg}
+\colorlet{comment}{mono2}
+\colorlet{number}{blue}
+\colorlet{keyword}{red}
+\colorlet{string}{green}
 
 \lstdefinestyle{haskell}{
     backgroundcolor=\color{background},   
@@ -51,7 +62,7 @@
 \include{pages/listops.tex}
 \include{pages/cond.tex}
 \include{pages/functions.tex}
-\include{pages/recursion.tex}
+\include{pages/folds.tex}
 \include{pages/whnf.tex}
 
 \end{document}
