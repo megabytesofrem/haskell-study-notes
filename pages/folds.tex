@@ -8,15 +8,15 @@ Foldr is short for "fold right". This is the most common fold that you will want
 GHC 7.10 abstracted out the list-specific part of folding into a typeclass called \texttt{Foldable} to allow you to reuse the same folding functions for any data type that can be folded.
 
 \begin{lstlisting}
--- Remember how map worked?
-map :: (a -> b) -> [a] -> [b]
+  -- Remember how map worked?
+  map :: (a -> b) -> [a] -> [b]
 
-map (+1) 1 :      2 :      3 : []
-map (+1) 1 : (+1) 2 : (+1) 3 : []
+  map (+1) 1 :      2 :      3 : []
+  map (+1) 1 : (+1) 2 : (+1) 3 : []
 
--- foldr works similar
-foldr (+) 0 (1   :   2   :   3   :   [])
-             1   + ( 2   +   (3  +   0))
+  -- foldr works similar
+  foldr (+) 0 (1   :   2   :   3   :   [])
+  1   + ( 2   +   (3  +   0))
 \end{lstlisting}
 
 \emph{map} applies a function to each item of a list and returns a list, whereas a \emph{fold} \underline{replaces} the cons constructors with the function and \textbf{reduces} the list.
@@ -27,9 +27,9 @@ Foldr is right associative, which means that it associates to the right.
 In \texttt{foldr (+) 0 [1..10]}, \emph{0} is the \textbf{identity} for the function. If this were to be implemented recursively like:
 
 \begin{lstlisting}
-sum :: [Int] -> Int
-sum []     = 0 -- the base case translates to the identity for foldr
-sum (x:xs) = x + sum xs 
+  sum :: [Int] -> Int
+  sum []     = 0 -- the base case translates to the identity for foldr
+  sum (x:xs) = x + sum xs 
 \end{lstlisting}
 
 \newpage
@@ -49,42 +49,42 @@ which can be reduced by evaluating the inner-most parentheses:
 \end{verbatim}
  
 \begin{lstlisting}[linewidth=15cm]
--- we're reducing:
-foldr (+) 0 [1, 2, 3]
+  -- we're reducing:
+  foldr (+) 0 [1, 2, 3]
 
--- first step, whats `xs' in our case expression?
-foldr (+) 0 [1, 2, 3] =
+  -- first step, whats `xs' in our case expression?
+  foldr (+) 0 [1, 2, 3] =
   case [1, 2, 3] of 
-    []      -> 0
-    (x:xs)  -> f x (foldr f z xs) <-- this matches
+  []      -> 0
+  (x:xs)  -> f x (foldr f z xs) <-- this matches
 
--- next, what are f, x, xs, and z in that branch of the case?
-foldr (+) 0 [1, 2, 3] =
+  -- next, what are f, x, xs, and z in that branch of the case?
+  foldr (+) 0 [1, 2, 3] =
   case [1, 2, 3] of
-    []            -> 0
-    (1 : [2,3])   -> (+) 1 (foldr (+) 0 [2, 3])
+  []            -> 0
+  (1 : [2,3])   -> (+) 1 (foldr (+) 0 [2, 3])
 
--- there is (+) 1 implicitly wrapped around this
--- continuation of the recursive fold
-foldr (+) 0 [2, 3] =
+  -- there is (+) 1 implicitly wrapped around this
+  -- continuation of the recursive fold
+  foldr (+) 0 [2, 3] =
   case [2, 3] of
-    []        -> 0 -- this didn't match again
-    (2 : [3]) -> (+) 2 (foldr (+) 0 [3])
+  []        -> 0 -- this didn't match again
+  (2 : [3]) -> (+) 2 (foldr (+) 0 [3])
 
--- next recursion
-foldr (+) 0 [2] =
+  -- next recursion
+  foldr (+) 0 [2] =
   case [3] of
-    []        -> 0 -- this didn't match again
-    (3 : []) -> (+) 3 (foldr (+) 0 [])
-    
--- there is (+) 1 ( (+) 2 ( (+) 3 ..) ) implicitly wrapped around
--- this continuation of the fold
+  []        -> 0 -- this didn't match again
+  (3 : []) -> (+) 3 (foldr (+) 0 [])
+  
+  -- there is (+) 1 ( (+) 2 ( (+) 3 ..) ) implicitly wrapped around
+  -- this continuation of the fold
 
--- last recursion, end of the spine
-foldr (+) 0 [] =
+  -- last recursion, end of the spine
+  foldr (+) 0 [] =
   case [] of
-    []      -> 0 -- finally matches!
-    -- ignore other case, it didnt happen
+  []      -> 0 -- finally matches!
+  -- ignore other case, it didnt happen
 \end{lstlisting}
 
 \subsection{Foldl}
@@ -92,18 +92,18 @@ Because of the way lists work, folds must \emph{first} recurse over the spine of
 
 A simple definition of \texttt{foldl} could look like:
 \begin{lstlisting}
-foldl :: (b -> a -> b) -> b -> [a] -> b
-foldl f acc []      = acc
-foldl f acc (x:xs)  = foldl f (f acc x) xs
+  foldl :: (b -> a -> b) -> b -> [a] -> b
+  foldl f acc []      = acc
+  foldl f acc (x:xs)  = foldl f (f acc x) xs
 
--- Given the list
-foldl (+) 0 (1 : 2 : 3 : [])
+  -- Given the list
+  foldl (+) 0 (1 : 2 : 3 : [])
 
--- foldl associates like
-(  ( 0 + 1 ) + 2 ) + 3 )
+  -- foldl associates like
+  (  ( 0 + 1 ) + 2 ) + 3 )
 
--- in contrast to foldr being
-( 3 + ( 2 + ( 1 + 0 ) ) )
+  -- in contrast to foldr being
+  ( 3 + ( 2 + ( 1 + 0 ) ) )
 \end{lstlisting}
 
 \subsection{Scans}
@@ -124,12 +124,74 @@ Prelude> scanl (+) 0 [1..5]
 
 The relationship \underline{between} the scans and folds are:
 \begin{lstlisting}
-last (scanl f z xs) = foldl f z xs
-head (scanr f z xs) = foldr f z xs
+  last (scanl f z xs) = foldl f z xs
+  head (scanr f z xs) = foldr f z xs
+
+  foldr :: (a -> b -> b) -> b -> [a] -> b
+  scanr :: (a -> b -> b) -> b -> [a] -> [b]
+
+  foldl :: (b -> a -> b) -> b -> [a] -> b
+  scanl :: (b -> a -> b) -> b -> [a] -> [b]
+\end{lstlisting}
+
+The \emph{primary} difference bwteen folds and scans is that scans \textbf{always} return a list.
+Folds can return a list as a result too, but they don't always.
+
+Because scans return a list, they are \emph{not} catamorphisms and are not folds at all!
+The type signatures are similar and the routes of traversing the spine and evaluating the cons cells
+are similar. This means we can use scans in places that we \emph{cant} use a fold -- because scans return a \emph{list} of results rather than reducing the spine.
+
+\begin{lstlisting}
+  scanr (+) 0 [1..3]
+  [1 + (2 + (3 + 0)), 2 + (3 + 0), 3 + 0, 0]
+  [6, 5, 3, 0]
+
+  scanl (+) 0 [1..3]
+  [0, 0 + 1, 0 + (1 + 2), 0 + ((1 + 2) + 3)]
+  [0, 1, 3, 6]
 \end{lstlisting}
 
 \newpage
-\subsection{Associativity}
+
+\subsection{Differences}
+A left fold has the sucessive steps of the fold as its \underline{first} argument.
+The next recursion of the spine isn't intermediated by the folding function (compared to \textbf{foldr}) -- which means recursion
+of the spine of the list is unconditional.
+
+What this means, is that having a function that doesn't \textbf{force} evaluation of \underline{either} of its arguments won't
+change anything.
+
+\begin{verbatim}
+Prelude> const 1 undefined
+1
+
+Prelude> (flip const) 1 undefined
+*** Exception: Prelude.undefined
+
+Prelude> (flip const) undefined 1
+\end{verbatim}
+
+vs
+
+\begin{verbatim}
+Prelude> foldr const 0 ([1..5] ++ undefined)
+1
+
+Prelude> foldr (flip const) 0 ([1..5] ++ undefined)
+*** Exception: Prelude.undefined
+
+...
+\end{verbatim}
+
+\subsection{Use foldl' not foldl}
+However while \texttt{foldl} unconditionally evaluates the spine, you can selectively evaluate the values in the list.
+This feature means foldl is generally inappropriate for lists that are infinite -- as well as large lists.
+
+When you need a left fold, you should use \texttt{foldl'} instead. This function works the same as \texttt{foldl} but it is \textbf{strict}.
+In other words, it forces evaluation of the evaluates inside cons cells as it traverses the spine.
+
+
+\subsection{Evaluation is just substitution}
 The fundamental way to think about evaluation in Haskell is as substituting a value. 
 
 When we use a \emph{right fold} on a list with a function \emph{f}, and a start value of z, we are replacing the \textbf{cons} constructors with our function \emph{f} and the empty list constructor with the start value of z.
@@ -151,18 +213,58 @@ foldr f z [1, 2, 3] =
 
 \subsection{Laziness}
 \begin{lstlisting}
-foldr f z (x:xs) = f x (foldr f z xs)
--- rest of the fold    ^^^^^^^^^^^^^
+  foldr f z (x:xs) = f x (foldr f z xs)
+  -- rest of the fold    ^^^^^^^^^^^^^
 \end{lstlisting}
 Folding happens in two stages --- traversal and folding.
 \begin{itemize}
-  \item Traversal is the stage in which the fold recurses over the spine
-  \item Folding is the stage where the values in a list are evaluated/reduced using a function
+\item Traversal is the stage in which the fold recurses over the spine
+\item Folding is the stage where the values in a list are evaluated/reduced using a function
 \end{itemize}
 
-Foldr is \emph{lazy} which means that if \emph{f} doesn't evaluate it's second argument (rest of the fold), no more of the spine will be forced. One of the consequences of this is that foldr can avoid evaluating not just some or all of the values in the list, but some or
+Foldr is \emph{lazy} which means that if \emph{f} doesn't evaluate it's second argument (rest of the fold), no more of the spine will be forced.
+One of the consequences of this is that foldr can avoid evaluating not just some or all of the values in the list, but some or
 all of the list’s spine as well!
 
 This means \texttt{foldr} works on infinite sized lists too.
 
+\subsection{Creating folding functions}
+When we write folds we first think about what the \underline{starting value} is for the fold.
+
+This is the \emph{identity} for the function. Examples given below:
+\begin{itemize}
+\item Identity for a list is the empty list ([])
+\item Identity for summation is 0
+\item Identity for multiplication is 1
+\item Identity for strings is either "" (empty string) \emph{or} [] (empty list)
+\end{itemize}
+
 \footnote{Sometimes the fold/recursive function will never reduce to a result. This is called bottoming or reaching the bottom (symbolized as $\bot$).}
+
+\subsection{Summary}
+
+\subsubsection{foldr}
+The rest of the fold (recursive invocation of foldr) is an \emph{argument} to the folding function. It doesn't directly self call as a tail call
+like \texttt{foldl} does.
+
+You can think of it as alternating between applications of \texttt{foldr} and the folding function \emph{f}.
+The next invocation of \texttt{foldr} is \textbf{conditional} on \emph{f} having asked for more of the results after having folded the list.
+
+\begin{lstlisting}
+  foldr :: (a -> b -> b) -> b -> [a] -> b
+\end{lstlisting}
+
+\begin{enumerate}
+\item The 'b' we're pointing to in \texttt{(a -> b -> b)} is the rest of the fold. Evaluating that evaluates the next application of foldr.
+\item \emph{foldr} associates to the right.
+\item Works with infinite lists.
+\item Is a good choice when you want to transform finite/infinite data structures
+\end{enumerate}
+
+\subsubsection{foldl}
+\begin{enumerate}
+\item Self-calls (tail call) through the list, only beginning to produce values after its reached the end
+\item Associates to the left (is left associative)
+\item Cannot be used with infinite lists
+\item Is neatly useless and should always be replaced with \texttt{foldl'} which is strictly evaluated.
+\end{enumerate}

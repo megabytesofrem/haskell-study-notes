@@ -1,0 +1,266 @@
+\section{Algebraic Data Types}
+
+\subsection{How Datatypes are constructed}
+
+\begin{verbatim}
+  data Bool = False  |  True
+-- [1] [2] [3] [4]  [5]  [6]
+\end{verbatim}
+
+In the above example for a \emph{Bool} datatype there are the parts broken down:
+\begin{enumerate}
+\item The keyword \emph{data} which signals that what follows is defining a datatype
+\item Type constructor (with no arguments)
+\item Equals sign which seperates the \emph{type constructor} from the \emph{data constructor}
+\item Data constructor. A data constructor that takes \emph{zero} arguments is called a \textbf{nullary constructor}.
+\item The pipe which denotes a \textbf{sum} type, which indicates a logical disjunction (or).
+\item Constructor for the value \texttt{True} -- another \textbf{nullary constructor}.
+\end{enumerate}
+
+Let's look at another example taken from the Haskell Book.
+We will look at the \emph{data constructor} and \emph{type constructors} for the list type.
+
+\begin{verbatim}
+data [] a = [ ]  | a  :  [a]
+--   [ 1 ]  [2]      [3]
+\end{verbatim}
+
+\begin{enumerate}
+\item Type constructor with an argument. The argument here is a polymorphic type variable,
+  so the lists argument can be of different types.
+\item Data constructor for the empty list.
+\item Data constructor that takes two arguments: an \emph{a} and also a list of \emph{a} aka \emph{[a]}.
+\end{enumerate}
+
+\subsubsection {Kinds}
+If we look closer at the list data type, we can tell based on the data type that it must be applied to a
+concrete type, like \emph{Integer} or \emph{String} before we have a list of that thing.
+
+Kinds are the types of types, or types one level up. They are represented with *. When something is a fully applied,
+concrete type its kind is *. When it is \texttt{* -> *} it is waiting to be applied.
+
+We can query the kind signature of a type constructor in GHC using \texttt{:kind} or \texttt{:k}.
+\begin{verbatim}
+Prelude> :k Bool
+Bool :: *
+
+Prelude> :k [Int]
+[Int] :: *
+
+Prelude> :k []
+[] :: * -> *
+\end{verbatim}
+
+Both \texttt{Bool} and \texttt{[Int]} are fully applied, concrete types so their kind has no arrows. However, the
+kind of \texttt{[]} is \texttt{* -> *} since it still needs to be applied to a concrete type before it itself is
+a concrete type.
+
+\subsubsection{Nullary, unary and product types}
+A type can be thought of as an enumeration of constructions that have zero or \emph{more} arguments.
+
+All of the following are valid data declarations:
+\begin{lstlisting}
+  -- nullary
+  data Example0 =
+    Example0 deriving (Eq, Show)
+
+  -- unary
+  data Example1 =
+    Example1 Int deriving (Eq, Show)
+
+  -- product of Int and String
+  data Example2 =
+    Example2 Int String deriving (Eq, Show)
+\end{lstlisting}
+
+
+\subsection{What makes them algebraic}
+Algebraic datatypes (ADTs) in Haskell are algebraic because we can describe the patterns of their argumement
+structures using two basic operations: sum and product. The most direct way to explain why they’re called sum
+and product is to demonstrate sum and product in terms of cardinality.
+
+The cardinality of a datatype is the number of possible values it defines. It can be as small as zero, or large as
+infinite.
+
+The cardinality of \texttt{Bool} is 2 since there are two possible values (True or False), and the cardinality of
+\texttt{Int8} is 256 since it can range from -128 to 127 so 128 + 127 + 1 = 256.
+
+\subsection{Determining cardinality}
+
+\subsubsection{Nullary data constructors}
+\begin{lstlisting}
+data Example = MakeExample deriving Show
+\end{lstlisting}
+
+Since \emph{MakeExample} takes \underline{no} type arguments it's a nullary constructor.
+Nullary data constructors are constants that only represent themselves as values -- so they have a cardinality of 1.
+
+Since \texttt{MakeExample} is a single nullary value for the type \texttt{Example}, the cardinality of the type is 1.
+
+\subsubsection{Unary constructors}
+A unary data constructors takes exactly one argument. Instead of the data constructor being a constant, known value
+like in nullary constructors -- the value will be constructed at run time from the argument we applied it to.
+
+Datatypes that only contain a unary constructor \textbf{always} have the same cardinality as the type they contain.
+
+\begin{lstlisting}
+data Goats = Goats Int deriving (Eq, Show)
+\end{lstlisting}
+
+Anything that is a valid Int must \textbf{also} be a \underline{valid} argument to the \texttt{Goats} constructor.
+For cardinality, this means unary constructors are the \emph{identity} function.
+
+\subsubsection{Sum types}
+To determine the cardinality of sum types, we add the cardinalities of their data constructors.
+\texttt{True} and \texttt{False} take no type arguments and are nullary constructors, each with a cardinality of 1.
+
+Now we do some arithmetic. Nullary constructors are 1, and sum types are addition of + when we are talking
+about the cardinality.
+
+\begin{verbatim}
+-- how many values inhabit bool?
+data Bool = False | True
+
+True | False = C
+
+-- given that |, the sum type syntax is addition
+True + False = C
+
+-- and that False and True are both == 1
+1 + 1 = C
+1 + 2 = 2
+
+-- the cardinality is 2
+C = 2
+\end{verbatim}
+
+\subsubsection{Product types}
+A product types cardinality is the \textbf{product} of the cardinalities of its inhabitants.
+A product type is like a struct.
+
+\begin{lstlisting}
+data QuantomBool = QuantomTrue
+                 | QuantomFalse
+                 | QuantomBoth deriving (Eq, Show)
+
+data TwoQs =
+  MkTwoQs QuantomBool QuantomBool
+  deriving (Eq, Show)
+\end{lstlisting}
+
+The datatype \texttt{TwoQs} has one \underline{data constructor}, \texttt{MkTwoQs} that takes
+two arguments -- making it a product of the two types that inhabit it.
+
+Each argument is a \texttt{QuantomBool} which has a cardinality of 3.
+Product types can also be defined in \textbf{record} syntax.
+
+\begin{lstlisting}
+-- using a data constructor
+data Person = MkPerson String Int deriving (Eq, Show)
+
+-- using record syntax
+data Person = Person { name :: String
+                     , age  :: Int 
+                     } deriving (Eq, Show)
+
+-- both of these are identical but the record syntax
+-- generates name and age functions
+\end{lstlisting}
+
+Product types are distributive over sum types.
+\begin{verbatim}
+a * (b + c) -> (a * b) + (a * c)
+\end{verbatim}
+
+% example of product types being distributive
+\lstinputlisting{pages/example/product-types.hs}
+
+\subsubsection{newtype}
+
+We use the \texttt{newtype} keyword to mark a type that can only ever have a single unary data constructor.
+A \texttt{newtype} cannot be a product type, sum type or contain any nullary constructors.
+
+However, it has some advantages of a vanilla \texttt{data} declaration. It has no runtime overhead as
+it reuses the representation of the type it contains (which is allowed since it cannot be a record (\emph{product type})
+or a tagged union (\emph{sum type}).
+
+\begin{lstlisting}
+newtype Goats = 
+  Goats Int deriving (Eq, Show)
+
+newtype Cows =
+  Cows Int deriving (Eq, Show)
+
+-- Now we can't accidentally mix up the Goats and Cows
+tooManyGoats :: Goats -> Bool
+tooManyGoats (Goats n) = n > 42
+\end{lstlisting}
+
+A \texttt{newtype} is similar to a type alias in that the distinction between them is gone by compile time.
+So a \emph{String} really is a \emph{Char[]} and \emph{Goats} above is really an \emph{Int}.
+
+However, one key difference bwteen a \texttt{newtype} and a type alias is that you can define typeclass
+instances for \texttt{newtypes} that \underline{differ} from the instances for their underlying type.
+
+\begin{lstlisting}
+class TooMany a where
+  tooMany :: a -> Bool
+
+instance TooMany Int where
+  tooMany n = n > 42
+\end{lstlisting}
+
+We can use it in the REPL but \underline{only} if we assign the type \texttt{Int} to whatever
+number we pass in since numeric literals are polymorphic.
+
+So this works (if we remove the \texttt{(42 :: Int)} it will blow up since we \underline{only} defined the instance
+for \texttt{Int}).
+\begin{verbatim}
+tooMany (42 :: Int)
+\end{verbatim}
+
+Under the hood, \texttt{Goats} is still \texttt{Int} \textbf{but} the \emph{newtype} declaration
+will allow us to define a custom instance.
+
+
+\begin{lstlisting}
+newtype Goats = Goats Int deriving Show
+
+instance TooMany Goats where
+  tooMany (Goats n) = n > 43
+\end{lstlisting}
+
+We can use the language extension \texttt{GeneralizedNewtypeDeriving} to let us derive from a user-defined
+typeclass.
+
+Without it, we would have to write
+\begin{lstlisting}
+class TooMany a where 
+  tooMany :: a -> Bool
+
+instance TooMany Int where
+  tooMany n = n > 42
+
+newtype Goats = Goats Int deriving (Eq, Show)
+
+-- will do the same thing as the Int instance, but we still have to
+-- define it seperately without using the extension.
+instance TooMany Goats where
+  tooMany (Goats n) = tooMany n
+\end{lstlisting}
+
+But with the extension we can write
+\begin{lstlisting}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+
+class TooMany a where
+  tooMany :: a -> Bool
+
+instance TooMany Int where
+  tooMany n = n > 42
+
+-- we just deriving from TooMany
+newtype Goats =
+  Goats Int deriving (Eq, Show, TooMany)
+\end{lstlisting}
+

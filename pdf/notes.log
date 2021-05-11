@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2021.5.6)  8 MAY 2021 15:14
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/Arch Linux) (preloaded format=pdflatex 2021.5.6)  11 MAY 2021 18:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -127,21 +127,21 @@ File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
 ) (pdf/notes.aux (pdf/pages/types.aux) (pdf/pages/types2.aux) (pdf/pages/lists.
 aux)
 (pdf/pages/listops.aux) (pdf/pages/cond.aux) (pdf/pages/functions.aux)
-(pdf/pages/folds.aux) (pdf/pages/whnf.aux))
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 60.
-LaTeX Font Info:    ... okay on input line 60.
+(pdf/pages/folds.aux) (pdf/pages/adt.aux) (pdf/pages/whnf.aux))
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
 \c@lstlisting=\count196
 
 (/usr/share/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
@@ -167,11 +167,11 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 61.
+(Font)              <12> on input line 55.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 61.
+(Font)              <8> on input line 55.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 61.
+(Font)              <6> on input line 55.
  (pdf/notes.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 2.
@@ -221,43 +221,48 @@ File: ts1cmtt.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 
 
 
-] [13] [14]) [15] (./pages/whnf.tex) [16
+] [13] [14] [15] [16] [17]) [18] (./pages/adt.tex
+[19
 
 
 
-]
-(pdf/notes.aux (pdf/pages/types.aux) (pdf/pages/types2.aux)
-(pdf/pages/lists.aux) (pdf/pages/listops.aux) (pdf/pages/cond.aux)
-(pdf/pages/functions.aux) (pdf/pages/folds.aux) (pdf/pages/whnf.aux)) ) 
+] [20] [21] (./pages/example/product-types.hs [22]) [23]) [24]
+(./pages/whnf.tex) [25
+
+
+
+] (pdf/notes.aux (pdf/pages/types.aux)
+(pdf/pages/types2.aux) (pdf/pages/lists.aux) (pdf/pages/listops.aux)
+(pdf/pages/cond.aux) (pdf/pages/functions.aux) (pdf/pages/folds.aux)
+(pdf/pages/adt.aux) (pdf/pages/whnf.aux)) ) 
 Here is how much of TeX's memory you used:
- 4695 strings out of 479383
- 63517 string characters out of 5875831
- 774274 words of memory out of 5000000
- 21721 multiletter control sequences out of 15000+600000
+ 4736 strings out of 479383
+ 64117 string characters out of 5875831
+ 778274 words of memory out of 5000000
+ 21750 multiletter control sequences out of 15000+600000
  409943 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 66i,8n,72p,542b,1620s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/sh
-are/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist
-/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmbx8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><
-/usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmr7.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb>
-</usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/ams
-fonts/cm/cmti10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt1
-0.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/sha
-re/texmf-dist/fonts/type1/public/cm-super/sfrm0800.pfb></usr/share/texmf-dist/f
-onts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf-dist/fonts/type1/publ
-ic/cm-super/sftt0900.pfb>
-Output written on pdf/notes.pdf (17 pages, 247290 bytes).
+ 66i,8n,72p,542b,1633s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf-dist/fonts/enc/dvi
+ps/cm-super/cm-super-ts1.enc}</usr/share/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
+></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmr17.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.
+pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-dist/fonts/type1/public/am
+sfonts/cm/cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
+8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/sh
+are/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmtt9.pfb></usr/share/texmf-dist/fonts/type1/pu
+blic/cm-super/sfrm0800.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/s
+frm1000.pfb></usr/share/texmf-dist/fonts/type1/public/cm-super/sftt0900.pfb>
+Output written on pdf/notes.pdf (26 pages, 275726 bytes).
 PDF statistics:
- 132 PDF objects out of 1000 (max. 8388607)
- 94 compressed objects within 1 object stream
+ 162 PDF objects out of 1000 (max. 8388607)
+ 114 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
